@@ -16,6 +16,7 @@ def power(a, b):
     return a ** b
 
 def menu():
+    print("\nWELCOME TO THE CALCULATOR")
     print("\n--- Simple Calculator ---")
     print("1. Addition")
     print("2. Subtraction")
