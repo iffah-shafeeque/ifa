@@ -12,13 +12,17 @@ def divide(a, b):
         return "Error! Division by zero."
     return a / b
 
+def power(a, b):
+    return a ** b
+
 def menu():
     print("\n--- Simple Calculator ---")
     print("1. Addition")
     print("2. Subtraction")
     print("3. Multiplication")
     print("4. Division")
-    print("5. Exit")
+    print("5. Power")
+    print("6. Exit")
 
 def main():
     while True:
@@ -48,6 +52,8 @@ def main():
             print("Result:", multiply(num1, num2))
         elif choice == "4":
             print("Result:", divide(num1, num2))
+        elif choice == "5":
+            print("Result:", power(num1, num2))
 
 if __name__ == "__main__":
     main()
