@@ -1,0 +1,196 @@
+1. Setup & Configuration
+These commands are used once when you install Git to configure your identity.
+git --version
+# Checks if Git is installed and shows the installed version
+git config --global user.name "Your Name"
+# Sets your Git username for all repositories
+git config --global user.email "you@email.com"
+# Sets your Git email for all repositories
+git config --list
+# Shows all Git configuration settings
+________________________________________
+2. Creating a Repository
+git init
+# Initializes a new Git repository in the current folder
+# Creates a hidden ".git" directory where Git tracks changes
+Example workflow:
+git init
+git status
+git add app.py
+git commit -m "Initial commit: Added greeting application"
+________________________________________
+3. Cloning an Existing Repository
+git clone https://github.com/username/project-name.git
+# Downloads an existing GitHub repository to your computer
+# Automatically creates a local repository
+________________________________________
+4. Checking Repository Status
+git status
+# Shows current state of repository
+# Displays:
+# - modified files
+# - staged files
+# - untracked files
+________________________________________
+5. Adding Files (Staging Area)
+Before committing, files must be staged.
+git add name.py
+# Adds a specific file to staging area
+git add .
+# Adds ALL changed files to staging area
+git add .gitignore
+# Adds the .gitignore file to tracking
+________________________________________
+6. Viewing Changes
+git diff
+# Shows differences between working directory and staging area
+git diff --staged
+# Shows changes that are staged but not yet committed
+________________________________________
+7. Committing Changes
+A commit is like a snapshot of your project.
+git commit -m "commit message"
+# Saves staged changes into the repository history
+Example:
+git commit -m "Added additional greeting message"
+________________________________________
+8. Viewing Commit History
+git log
+# Shows detailed commit history
+git log --oneline
+# Shows a short summary of commits
+git log --oneline --graph --all
+# Shows a visual graph of commit history and branches
+________________________________________
+9. Branching
+Branches allow you to work on features separately.
+git branch
+# Lists all branches in the repository
+git branch new_feature
+# Creates a new branch called "new_feature"
+git checkout new_feature
+# Switches to the "new_feature" branch
+git checkout master
+# Switches back to the master branch
+(Newer Git uses main instead of master.)
+________________________________________
+10. Creating & Switching Branch in One Command
+git checkout -b new_b
+# Creates a new branch and switches to it immediately
+Example:
+git checkout -b feature/add-greeting
+________________________________________
+11. Merging Branches
+Combines changes from one branch into another.
+git merge new_feature
+# Merges the branch "new_feature" into the current branch
+Example workflow:
+git checkout main
+git merge feature/add-greeting
+________________________________________
+12. Deleting a Branch
+git branch -d feature/add-greeting
+# Deletes the specified branch
+________________________________________
+13. Working with Remote Repositories
+Remote repositories are usually on GitHub.
+git remote add origin https://github.com/username/project.git
+# Connects your local repository to GitHub
+git remote -v
+# Shows remote repository URLs
+________________________________________
+14. Pushing Code to GitHub
+git push origin main
+# Uploads local commits to GitHub
+git push -u origin main
+# Pushes code AND sets origin/main as default upstream branch
+After this, you can simply run:
+git push
+________________________________________
+15. Pulling Changes from GitHub
+git pull origin main
+# Downloads and merges changes from GitHub
+________________________________________
+16. Fetching Changes (Without Merging)
+git fetch origin
+# Downloads changes from remote repository
+# Does NOT merge them automatically
+________________________________________
+17. Undo Changes in Files
+git checkout -- std.py
+# Discards changes in std.py and restores last committed version
+Newer Git command:
+git restore std.py
+________________________________________
+18. Resetting Commits
+git reset --soft HEAD~1
+# Removes last commit but keeps changes staged
+git reset --mixed HEAD~1
+# Removes last commit and unstages changes
+git reset --hard HEAD~1
+# Removes last commit AND deletes changes permanently
+________________________________________
+19. Reverting a Commit
+git revert <commit-id>
+# Creates a new commit that undoes a previous commit
+Safer than reset for shared repositories.
+________________________________________
+20. Git Stash (Temporary Save)
+Used when you want to switch branches without committing changes.
+git stash
+# Temporarily saves uncommitted changes
+git stash list
+# Shows saved stashes
+git stash apply
+# Restores the last stash
+git stash pop
+# Restores and deletes the stash
+________________________________________
+21. Tagging (Version Releases)
+Tags mark important versions like releases.
+git tag v1.0
+# Creates a version tag called v1.0
+git push origin v1.0
+# Pushes the tag to GitHub
+________________________________________
+22. .gitignore File
+.gitignore tells Git which files/folders to ignore.
+Example .gitignore:
+*.log
+# Ignore all log files
+
+*.txt
+# Ignore text files
+
+__pycache__/
+# Ignore Python cache folder
+
+*.pyc
+# Ignore compiled Python files
+Then add it:
+git add .gitignore
+git commit -m "Added gitignore"
+________________________________________
+23. Complete Beginner Git Workflow
+Example full workflow for a new project:
+git init
+# Create repository
+
+git status
+# Check repo state
+
+git add app.py
+# Stage file
+
+git commit -m "Initial commit"
+# Save snapshot
+
+git remote add origin https://github.com/username/simple-git-app.git
+# Connect GitHub repository
+
+git branch -M main
+# Rename branch to main
+
+git push -u origin main
+# Upload code to GitHub
+
