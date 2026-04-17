@@ -1,0 +1,345 @@
+I will paste a project/lab question where features are given version-wise like:
+
+Project Name
+v1 (Feature + Description)
+v2 (Feature + Description)
+v3 (Feature + Description)
+
+Your job is to convert it into a **complete step-by-step implementation + DevOps execution guide** following this EXACT flow:
+
+👉 **VS Code (code) → GitHub (push) → Jenkins Pipeline (checkout & build) → Docker (build image) → DockerHub (push image with credentials) → Kubernetes (deploy app)**
+
+Follow all instructions strictly.
+
+---
+
+# 1. Understand the question
+
+* Identify project name and each version (v1, v2, v3, v4 if present)
+* Each version must be treated as a **progressive build**
+* v2 builds on v1, v3 builds on v2 (do NOT restart from scratch)
+
+---
+
+# 2. For EACH version, follow this EXACT structure
+
+---
+
+## Version X – Feature Name
+
+### 1. Feature Explanation
+
+* Simple explanation
+* What is new compared to previous version
+
+---
+
+### 2. VS Code Implementation (MANDATORY)
+
+Step-by-step:
+
+1. Open VS Code
+2. Create/update files (mention exact names)
+3. Paste FULL code (copy-paste ready)
+4. Save files
+
+Include:
+
+* Full project structure (if needed)
+* Complete code (no partial code)
+
+---
+
+### 3. Local Testing (MANDATORY)
+
+Give exact run command:
+
+```bash
+python app.py
+```
+
+Explain:
+
+* URL to open
+* Expected output
+
+---
+
+### 4. GitHub Push (MANDATORY)
+
+Include FULL commands:
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b v1
+git add .
+git commit -m "Added v1 feature"
+git push -u origin v1
+```
+
+Also include initial setup if needed:
+
+```bash
+git init
+git remote add origin <repo-url>
+git branch -M main
+```
+
+---
+
+### 5. Jenkins Setup (MANDATORY)
+
+Explain step-by-step:
+
+1. Open Jenkins → `http://localhost:8080`
+2. Click **New Item**
+3. Select **Pipeline**
+4. Go to **Pipeline script**
+5. Paste code
+6. Click Save
+7. Click Build Now
+
+---
+
+### 6. DockerHub Credentials Setup in Jenkins (MANDATORY)
+
+Explain clearly:
+
+1. Go to **Manage Jenkins → Credentials**
+2. Select **(global)**
+3. Click **Add Credentials**
+4. Choose:
+
+   * Kind: Username & Password
+   * Username: your DockerHub username
+   * Password: your DockerHub password
+   * ID: `docker-creds`
+5. Click Save
+
+Explain:
+
+* This ID will be used in pipeline
+
+---
+
+### 7. Jenkins Pipeline Code (MANDATORY)
+
+Provide FULL pipeline code for EACH version.
+
+Must include:
+
+* Git checkout (branch v1/v2/v3)
+* Docker build
+* Docker login using credentials
+* Docker push to DockerHub
+* Kubernetes deployment
+
+Example:
+
+```groovy
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "yourdockerhubusername/app:v1"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'v1', url: 'https://github.com/yourusername/your-repo.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t %DOCKER_IMAGE% .'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    bat 'echo %PASSWORD% | docker login -u %USERNAME% --password-stdin'
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                bat 'docker push %DOCKER_IMAGE%'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                bat 'kubectl apply -f deployment.yaml'
+                bat 'kubectl apply -f service.yaml'
+            }
+        }
+    }
+}
+```
+
+---
+
+### 8. Docker Setup (MANDATORY)
+
+Provide FULL Dockerfile:
+
+```dockerfile
+FROM python:3.9
+WORKDIR /app
+COPY . .
+RUN pip install flask
+CMD ["python", "app.py"]
+```
+
+Explain:
+
+* where to create Dockerfile
+* how Jenkins uses it
+
+---
+
+### 9. DockerHub (MANDATORY)
+
+Explain:
+
+* image format:
+
+```text
+yourusername/app:v1
+```
+
+* Jenkins will push automatically using credentials
+
+---
+
+### 10. Kubernetes Deployment (MANDATORY)
+
+Provide:
+
+#### deployment.yaml
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-v1
+  template:
+    metadata:
+      labels:
+        app: app-v1
+    spec:
+      containers:
+      - name: app
+        image: yourusername/app:v1
+        ports:
+        - containerPort: 5000
+```
+
+#### service.yaml
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service-v1
+spec:
+  type: NodePort
+  selector:
+    app: app-v1
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30001
+```
+
+---
+
+### 11. Kubernetes Commands
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl get pods
+kubectl get services
+```
+
+---
+
+### 12. Verification (MANDATORY)
+
+Explain:
+
+* Jenkins → Console Output shows all stages success
+* Docker:
+
+```bash
+docker images
+```
+
+* Kubernetes:
+
+```bash
+kubectl get pods
+kubectl get services
+```
+
+* Browser:
+
+```text
+http://localhost:30001
+```
+
+---
+
+### 13. Common Errors + Fix
+
+Include:
+
+* docker not recognized → fix PATH
+* login failed → check credentials
+* push denied → docker login issue
+* pod crash → check logs
+* wrong port → fix YAML
+* Jenkins stuck → disk space issue
+
+---
+
+# 3. Final Summary (MANDATORY)
+
+Include:
+
+* What each version achieved
+* Full pipeline flow:
+  👉 VS Code → GitHub → Jenkins → Docker → DockerHub → Kubernetes
+* Key learning points
+* Viva questions
+
+---
+
+# 4. STRICT RULES
+
+* Always give FULL code (no partial code)
+* Always include DockerHub push with credentials
+* Always include Jenkins credential setup
+* Always include Git commands per version
+* Always include Jenkins pipeline code
+* Always include Docker + Kubernetes steps
+* Do NOT skip steps
+* Use simple English
+* Focus on real execution, not theory
+
+---
+
+Now wait for the question and generate the complete step-by-step guide.
+
+[PASTE QUESTION HERE]
