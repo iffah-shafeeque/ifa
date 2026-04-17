@@ -1,0 +1,166 @@
+Got it — you want the **“origin main” style workflow (no clone)** → meaning you already have a folder/project and want to connect it to GitHub + create branches.
+
+Here’s the **clean step-by-step** 👇
+
+---
+
+# 🔹 Step 1: Initialize Git in your project (VS Code terminal)
+
+```bash
+git init
+```
+
+---
+
+# 🔹 Step 2: Add your GitHub repo as origin
+
+```bash
+git remote add origin https://github.com/yourusername/your-repo.git
+```
+
+Check if added:
+
+```bash
+git remote -v
+```
+
+---
+
+# 🔹 Step 3: Set main branch and push
+
+```bash
+git branch -M main
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+```
+
+Now your local project is connected to GitHub 👍
+
+---
+
+# 🔹 Step 4: Create Version 1 branch (v1)
+
+```bash
+git checkout -b v1
+```
+
+Make your changes → then:
+
+```bash
+git add .
+git commit -m "Version 1 changes"
+git push -u origin v1
+```
+
+---
+
+# 🔹 Step 5: Create Version 2 branch (from main)
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b v2
+```
+
+Then:
+
+```bash
+git add .
+git commit -m "Version 2 changes"
+git push -u origin v2
+```
+
+---
+
+# 🔹 Step 6: Create Version 3 branch
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b v3
+```
+
+Then:
+
+```bash
+git add .
+git commit -m "Version 3 changes"
+git push -u origin v3
+```
+
+---
+
+# 🔹 Step 7: Create Version 4 branch
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b v4
+```
+
+Then:
+
+```bash
+git add .
+git commit -m "Version 4 changes"
+git push -u origin v4
+```
+
+---
+
+# 🔹 Step 8: Switching branches anytime
+
+```bash
+git checkout v1
+git checkout v2
+git checkout v3
+git checkout v4
+git checkout main
+```
+
+---
+
+# 🔹 Step 9: If you update code later
+
+Example for v2:
+
+```bash
+git checkout v2
+git add .
+git commit -m "Updated v2"
+git push origin v2
+```
+
+---
+
+# 🔹 Step 10: Jenkins usage (important)
+
+In your Jenkins pipeline, use:
+
+```groovy
+git branch: 'v1', url: 'https://github.com/yourusername/your-repo.git'
+```
+
+Change branch:
+
+* `v1` → Version 1
+* `v2` → Version 2
+* `v3` → Version 3
+* `v4` → Version 4
+
+---
+
+# 🔹 Super simple flow (what you remember in exam)
+
+1. `git init`
+2. `git remote add origin <repo-url>`
+3. `git branch -M main`
+4. `git push -u origin main`
+5. `git checkout -b v1 / v2 / v3 / v4`
+6. `git push -u origin <branch>`
+
+---
+
+If you want, I can next give you:
+👉 **common mistakes (like origin already exists, push rejected, etc.)** — very useful for viva 😄
