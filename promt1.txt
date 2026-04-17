@@ -1,0 +1,131 @@
+I will paste a lab/programming/devops/Jenkins/Git experiment question at the end. Your job is to convert it into an **extremely detailed, beginner-friendly, step-by-step execution guide** that I can follow directly on my system.
+
+Follow these rules strictly:
+
+1. **Understand the question first**
+
+   * Break the question into experiment number, objective, versions, and tasks.
+   * Treat every version separately.
+   * Do not skip any task mentioned in the question.
+
+2. **Give output in a very practical format**
+   For each version, always give:
+
+   * Title
+   * Objective in simple words
+   * What needs to be ready before starting
+   * Exact step-by-step procedure from the beginning
+   * Exact code to paste
+   * Exact commands to type in terminal/PowerShell/VS Code terminal/Git Bash, depending on context
+   * What button to click in tools like Jenkins/GitHub/VS Code, if relevant
+   * What output I should expect
+   * How to verify that the version worked successfully
+
+3. **Assume I am a beginner**
+
+   * Explain every step clearly.
+   * Do not say vague things like “configure it” or “set it up properly” without explaining how.
+   * If a file needs to be created, tell me where and what to name it.
+   * If code needs to be pasted in Jenkins, say exactly where to paste it.
+   * If terminal commands are needed, list them in order.
+   * If a branch is needed, explain how to create and switch to it.
+   * If a parameter is needed, explain where to create it and what values to enter.
+
+4. **If GitHub pushing is involved**
+   Always include the full Git commands for each version separately.
+   If needed, include:
+
+   * git init
+   * git remote add origin <repo-url>
+   * git branch -M main
+   * git add .
+   * git commit -m "message"
+   * git push -u origin main
+   * git checkout -b v1 / v2 / v3 / v4
+   * git pull origin main
+   * git push -u origin v1 / v2 / v3 / v4
+     Also explain when to run each command.
+
+5. **If Jenkins Pipeline is involved**
+   Always include:
+
+   * how to open Jenkins
+   * how to create a new Pipeline job
+   * where to paste the pipeline script
+   * when to click Save / Build Now / Build with Parameters
+   * how to check Console Output
+   * the exact Jenkinsfile or pipeline code for each version
+   * Git checkout code with branch if needed
+   * explanations of parameters like string, boolean, choice, input, environment variables, archiveArtifacts, BAT, echo, etc., only if relevant
+
+6. **If code is required**
+
+   * Give complete code, not partial code.
+   * Use copy-paste-ready code blocks.
+   * Do not use placeholders unless absolutely necessary.
+   * If placeholders are needed, clearly mark what I must replace, such as GitHub repo URL, branch name, username, or file name.
+
+7. **If there are multiple versions**
+
+   * Separate Version 1, Version 2, Version 3, and Version 4 clearly.
+   * For each version, provide its own steps and its own code.
+   * Do not merge all versions into one unless I explicitly ask.
+
+8. **Include common errors and fixes**
+   After each version, include a short section:
+
+   * Common mistakes
+   * Why they happen
+   * How to fix them
+     Examples: wrong repo URL, private repo issue, branch not found, Jenkins workspace issue, BAT command not working, file not found, parameter name conflict, Git origin already exists, push rejected, etc.
+
+9. **Keep the style simple**
+
+   * Use simple English.
+   * Be clear and detailed.
+   * Do not make the explanation too short.
+   * Do not skip small practical details.
+   * Write like a tutor guiding a student during lab exam preparation.
+
+10. **If the question is about reports or viva**
+    Also add:
+
+* short explanation of what the experiment does
+* expected result
+* possible viva points in simple language
+
+11. **Important formatting rule**
+    Always structure the answer like this:
+
+* Experiment Name
+* Objective
+* Prerequisites
+* Version 1
+
+  * Tasks
+  * Steps
+  * Code
+  * Verification
+  * Common errors
+* Version 2
+
+  * Tasks
+  * Steps
+  * Code
+  * Verification
+  * Common errors
+* and so on
+
+12. **Very important**
+
+* Never just summarize.
+* Never only explain theory.
+* Focus on execution.
+* Give me the exact flow to do the experiment in real life.
+* If the question asks to “checkout updated code from GitHub,” explain that I must modify a file in VS Code/IDE, save it, commit it, and push it before running Jenkins again.
+* If the question asks to create files using BAT, include the BAT commands.
+* If the question asks for parameters, include exactly how to define and use them.
+
+Now wait for the experiment question below and answer according to all the above rules.
+
+[PASTE QUESTION HERE]
