@@ -1,0 +1,470 @@
+Yes — for that **Maven + Jenkins + Docker + Kubernetes CI/CD demo style**, you need a **different prompt** from the version-wise one.
+
+Because this one is not:
+
+* v1, v2, v3 incremental feature development
+
+It is more like:
+
+* **Step 1 install**
+* **Step 2 create project**
+* **Step 3 test locally**
+* **Step 4 Docker**
+* **Step 5 Kubernetes**
+* **Step 6 GitHub**
+* **Step 7 Jenkins**
+* **Step 8 Verify**
+
+So here is a **proper prompt** for that format:
+
+I will paste a **Maven + Jenkins + Docker + Kubernetes CI/CD demo question** at the end.
+
+Your job is to convert it into a **complete, beginner-friendly, step-by-step lab manual** in the **same style as a practical classroom/demo procedure**.
+
+I want the answer in this style:
+
+* Step 1: Install tools
+* Step 2: Enable Kubernetes
+* Step 3: Install Jenkins plugins
+* Step 4: Create Java Maven project
+* Step 5: Build locally
+* Step 6: Create Dockerfile
+* Step 7: Push code to GitHub
+* Step 8: Create Kubernetes deployment file
+* Step 9: Configure Jenkins
+* Step 10: Add DockerHub credentials
+* Step 11: Create Jenkins pipeline job
+* Step 12: Verify Docker and Kubernetes deployment
+
+Follow all instructions strictly.
+
+---
+
+# 1. Main output style
+
+Your answer must be written as a **numbered step-by-step execution guide**.
+
+Do NOT:
+
+* give only summary
+* give version-wise answer unless the question itself is version-wise
+* skip steps
+* assume prior knowledge
+* give partial code
+
+Write it like a **lab manual** that a student can follow directly.
+
+---
+
+# 2. Assume beginner level
+
+Explain clearly:
+
+* what software to install
+* what settings to enable
+* what plugins to install
+* what files to create
+* what folder structure to make
+* what exact code to paste
+* what commands to run
+* what buttons to click in Jenkins
+* what output to expect
+* how to verify success
+
+---
+
+# 3. Core scope
+
+If the question is about **Jenkins + Docker + Kubernetes with Maven**, include:
+
+* Java
+* Maven
+* Git
+* Jenkins
+* Docker Desktop
+* Kubernetes
+* GitHub
+* Jenkins plugins
+* DockerHub credentials
+* Jenkins pipeline
+
+Do NOT turn it into a version-based answer unless the question explicitly asks for versions.
+
+---
+
+# 4. Installation section requirement
+
+Always include tool installation step if relevant:
+
+* Java JDK
+* Maven
+* Git
+* Jenkins
+* Docker Desktop
+
+Also include verification commands:
+
+```bash id="qnbpn7"
+java -version
+mvn -version
+git --version
+docker --version
+kubectl version --client
+```
+
+If Kubernetes is required, also mention:
+
+* Docker Desktop → Settings → Kubernetes → Enable Kubernetes
+
+---
+
+# 5. Jenkins plugin requirement
+
+If the question mentions Jenkins + Docker + Kubernetes, include plugin setup if relevant.
+
+Explain clearly:
+
+* Open Jenkins
+* Go to **Manage Jenkins**
+* Open **Plugins**
+* Search and install required plugins
+
+If question mentions Docker plugin, Docker Pipeline, Kubernetes CLI plugin, GitHub integration, or webhook support, include them clearly.
+
+---
+
+# 6. Maven Java project requirement
+
+If the question is about a simple Maven Java application, always include:
+
+## Folder structure
+
+Show clearly like:
+
+```text id="4f6vbp"
+simple-java-app
+├── pom.xml
+├── Dockerfile
+├── deployment.yaml
+└── src
+    └── main
+        └── java
+            └── com
+                └── demo
+                    └── App.java
+```
+
+If more classes are needed, include them too.
+
+---
+
+# 7. Code requirement
+
+Always provide full code for:
+
+* `pom.xml`
+* Java file(s)
+* `Dockerfile`
+* `deployment.yaml`
+* `service.yaml` if needed
+* Jenkins Pipeline script
+
+Code must be:
+
+* complete
+* copy-paste ready
+* fully expanded
+
+Do NOT say:
+
+* “important parts only”
+* “same as above”
+* “update previous code”
+
+---
+
+# 8. Maven build requirement
+
+Always include local build step:
+
+```bash id="hv0o9p"
+mvn clean package
+```
+
+Explain:
+
+* expected output: `BUILD SUCCESS`
+* expected JAR location, for example:
+
+```text id="5jdtib"
+target/simple-java-app-1.0.jar
+```
+
+---
+
+# 9. Docker requirement
+
+If Docker is required, always include:
+
+## Dockerfile
+
+Give full code.
+
+## Build command
+
+```bash id="3jvv4t"
+docker build -t <image-name> .
+```
+
+## Run command
+
+```bash id="44f24v"
+docker run -p 8080:8080 <image-name>
+```
+
+Explain:
+
+* JAR must be built before Docker image build
+* what image name to use
+* what output to expect
+
+If DockerHub is involved, include push flow too.
+
+---
+
+# 10. GitHub requirement
+
+Always include full Git commands:
+
+```bash id="kobkho"
+git init
+git add .
+git commit -m "Initial Java CI/CD commit"
+git branch -M main
+git remote add origin <repo-url>
+git push -u origin main
+```
+
+If an additional file like `deployment.yaml` is created later and pushed separately, include that too if the question suggests that flow.
+
+---
+
+# 11. Kubernetes requirement
+
+If Kubernetes is required, always include:
+
+* full `deployment.yaml`
+* full `service.yaml` if needed
+* `kubectl apply -f ...`
+* `kubectl get pods`
+* `kubectl get svc`
+
+Explain:
+
+* what Deployment does
+* what Service does
+* what image name Kubernetes uses
+* when to use `imagePullPolicy: Never`
+* how to access app if a service is used
+
+If the sir’s style question uses only deployment without service, follow that exact style unless a service is necessary.
+
+---
+
+# 12. DockerHub credentials requirement
+
+If the question includes DockerHub push, always include:
+
+Explain exactly:
+
+* Open Jenkins
+* Go to **Manage Jenkins**
+* **Credentials**
+* **System**
+* **Global credentials**
+* **Add Credentials**
+* Kind: Username with password
+* ID example: `dockerhub-creds`
+
+Also explain why:
+
+* Jenkins builds image
+* Jenkins pushes image to DockerHub
+* Kubernetes may pull image from DockerHub
+* without credentials, Docker push fails
+
+---
+
+# 13. Jenkins job requirement
+
+Explain clearly:
+
+## Open Jenkins
+
+```text id="w2zmk9"
+http://localhost:8080
+```
+
+## Create job
+
+* Click **New Item**
+* Enter job name
+* Select **Pipeline**
+* Click **OK**
+
+Then explain exactly where to paste pipeline code.
+
+If the question asks for Maven Project job instead of Pipeline, then explain Maven Project job configuration instead.
+
+---
+
+# 14. Jenkins pipeline requirement
+
+Always provide full Jenkins Pipeline code.
+
+If environment is Windows, default to:
+
+* `bat`
+
+If Linux is explicitly specified, use:
+
+* `sh`
+
+If the question is Windows classroom/lab style, prefer `bat`.
+
+Example structure:
+
+```groovy id="ry6qrb"
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "yourdockerhubusername/java-app:latest"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: '<repo-url>'
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                bat 'mvn clean package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t %DOCKER_IMAGE% .'
+            }
+        }
+
+        stage('Push to DockerHub') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
+                    bat 'docker push %DOCKER_IMAGE%'
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                bat 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
+```
+
+If safer login is preferred, you may use `--password-stdin`.
+
+---
+
+# 15. Webhook requirement
+
+If webhook is required, explain exactly:
+
+* Open GitHub repository
+* Go to **Settings**
+* Open **Webhooks**
+* Click **Add webhook**
+* Payload URL:
+
+```text id="q6h870"
+http://<your-ip-or-host>:8080/github-webhook/
+```
+
+Explain that Jenkins must be reachable for webhook to work.
+
+---
+
+# 16. Verification requirement
+
+At the end, always include:
+
+* how to verify Maven build success
+* how to verify Docker image
+* how to verify Jenkins build success
+* how to verify Kubernetes deployment
+* commands like:
+
+```bash id="jlwmqb"
+docker images
+kubectl get pods
+kubectl get svc
+```
+
+Explain expected output.
+
+---
+
+# 17. Mandatory answer structure
+
+Always structure the answer like this:
+
+* Title
+* Objective
+* Step 1: Install Tools
+* Step 2: Enable Kubernetes
+* Step 3: Install Jenkins Plugins
+* Step 4: Create Simple Java Maven Application
+* Step 5: Build Locally
+* Step 6: Create Dockerfile
+* Step 7: Push Code to GitHub
+* Step 8: Create Kubernetes Deployment File
+* Step 9: Configure Jenkins
+* Step 10: Add DockerHub Credentials
+* Step 11: Create Jenkins Pipeline Job
+* Step 12: Add Jenkins Pipeline Script
+* Step 13: Run Build
+* Step 14: Verify Docker and Kubernetes Deployment
+
+If the pasted question has a slightly different flow, adapt the step titles accordingly, but keep the same lab-manual style.
+
+---
+
+# 18. Language style
+
+Use:
+
+* simple English
+* beginner-friendly wording
+* practical instructions
+* exact commands and code
+
+Write like a lab manual that can be followed directly.
+
+---
+
+Now wait for the Maven + Jenkins + Docker + Kubernetes question below and generate the full answer in this exact step-by-step style.
+
+[PASTE QUESTION HERE]
+
+This one is the correct prompt for the **“Jenkins – Docker – Kubernetes (CI/CD Demo) with Maven”** format your sir taught.
