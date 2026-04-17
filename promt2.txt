@@ -1,425 +1,323 @@
-I will paste a lab / DevOps / CI-CD / Jenkins / Docker / Kubernetes experiment question at the end. Your job is to convert it into an **extremely detailed, beginner-friendly, real execution guide** that I can follow directly on my Windows system.
+I will paste a lab/project question (with versions v1, v2, v3, v4).
 
-The question may include:
-
-* GitHub push and branch creation
-* Jenkins Pipeline build execution
-* Docker image build
-* DockerHub push
-* Kubernetes deployment
-* version-wise implementation (Version 1, 2, 3, 4)
-* verification of output in Jenkins, Docker, and Kubernetes
-
-You must follow these instructions strictly.
+Your job is to convert it into a **complete, extremely detailed, step-by-step execution guide**.
 
 ---
 
-## 1. First understand the question fully
+# 1. CORE EXECUTION FLOW
 
-* Break it into:
+👉 Always follow this base flow:
 
-  * Experiment name
-  * Objective
-  * Version 1 / Version 2 / Version 3 / Version 4
-  * Tasks under each version
-* Treat each version separately.
-* Do not skip any task.
-* If a version says “checkout updated code”, explain that code must first be modified locally in VS Code or IDE, then committed and pushed to GitHub before Jenkins is run again.
+**VS Code → GitHub → Jenkins Pipeline (Build) → Verification**
 
 ---
 
-## 2. Main goal of your answer
+# 2. STRICT QUESTION MATCHING RULE (VERY IMPORTANT)
 
-Your answer must be focused on **real execution**, not just theory.
+You MUST follow the question **exactly as written**.
 
-I need:
+* Do NOT rename parameters unless absolutely necessary
+* Do NOT modify task names
+* Do NOT change variable names
 
-* exact step-by-step flow
-* exact file creation steps
-* exact Jenkins Pipeline code
-* exact Dockerfile / deployment YAML / service YAML if needed
-* exact Git commands
-* exact Docker commands
-* exact Kubernetes commands
-* exact verification steps
-* exact expected outputs
+### If a real-world conflict exists (IMPORTANT):
 
-Do not give vague explanations like:
+Example:
 
-* “configure Jenkins”
-* “build Docker image”
-* “deploy to Kubernetes”
+* Question says `BUILD_ID`
+* Jenkins already has internal `BUILD_ID`
 
-Instead explain exactly how to do each one.
+👉 Then you MUST:
+
+1. Use the **exact name from the question**
+2. Add a note:
+
+   > “In real-world usage, this may conflict with Jenkins internal variables. Using BUILD_ID_PARAM is safer, but here we follow the question exactly.”
 
 ---
 
-## 3. Assume I am a beginner
+# 3. PARAMETER HANDLING RULE (CRITICAL)
 
-* Explain every single step clearly.
-* Tell me what to open:
+If question says:
 
-  * VS Code
-  * Terminal / PowerShell
-  * Jenkins dashboard
-  * Docker Desktop
-* Tell me where to click in Jenkins.
-* Tell me where to paste code.
-* Tell me what file names to create.
-* Tell me what branch names to use.
-* Tell me what output to expect.
-* Tell me how to verify success.
+### “String parameter”
+
+```groovy
+string(name: 'PARAM_NAME', ...)
+```
+
+### “Numeric parameter”
+
+👉 Jenkins declarative pipeline does NOT have a strict numeric type
+
+So you MUST:
+
+* Use `string` parameter
+* Add note:
+
+  > “Jenkins uses string input; user should enter numeric values only”
 
 ---
 
-## 4. If GitHub push is involved
+# 4. “ALL PARAMETERS” RULE
 
-Always include the complete Git commands for each version separately.
+If question says:
 
-If local project is already present and not cloned, include commands like:
+> “Display all parameter values”
+
+👉 You MUST clarify:
+
+* Either:
+
+  * “All parameters in THIS version”
+* OR:
+
+  * “All parameters introduced so far”
+
+❗ If unclear → assume:
+👉 “All parameters defined in current version”
+
+---
+
+# 5. SEPARATE BUILD RULE (CRITICAL)
+
+Each version MUST be executed as a **separate Jenkins build**.
+
+For EVERY version, you MUST explicitly say:
+
+> “Click Build Now — this runs as a separate Jenkins build”
+
+❗ Never assume:
+
+* v2 continues from v1
+* v3 includes v1
+
+---
+
+# 6. WORKSPACE HANDLING RULE (CRITICAL)
+
+Jenkins workspace may:
+
+* persist
+  OR
+* reset
+
+So ALWAYS include:
+
+> “Jenkins may reuse or clean workspace. Do not assume previous files exist.”
+
+### Enforcement:
+
+If files are needed:
+
+* recreate OR overwrite safely
+
+Example:
+
+```bat
+echo data > file.txt   (safe overwrite)
+echo data >> file.txt  (append)
+```
+
+❗ VERY IMPORTANT:
+
+* If question says “append” → MUST use `>>`
+* If question says “create/save” → use `>`
+
+---
+
+# 7. GIT RULES (STRICT)
+
+### Initial Setup
 
 ```bash
 git init
-git remote add origin <repo-url>
 git branch -M main
+git remote add origin <repo-url>
 git add .
 git commit -m "Initial commit"
 git push -u origin main
 ```
 
-If version-wise branches are needed, include:
+### Version Branching
+
+#### v1
 
 ```bash
 git checkout main
 git pull origin main
 git checkout -b v1
-git add .
-git commit -m "Version 1 changes"
 git push -u origin v1
 ```
 
-and similarly for:
+#### v2
 
-* v2
-* v3
-* v4
+```bash
+git checkout v1
+git pull origin v1
+git checkout -b v2
+git push -u origin v2
+```
 
-Also explain:
+#### v3
 
-* when to switch branch
-* when to modify files
-* when to commit
-* when to push
+```bash
+git checkout v2
+git pull origin v2
+git checkout -b v3
+git push -u origin v3
+```
 
-If the question says updated code for each version, provide Git commands for each version separately.
+#### v4
 
----
-
-## 5. If Jenkins Pipeline is involved
-
-Always include:
-
-* how to open Jenkins
-* how to create a new Pipeline job
-* what job name to use
-* where to paste pipeline code
-* whether to use “Pipeline script”
-* when to click Save
-* when to click Build Now
-* when to click Build with Parameters
-* how to see Console Output
-* how to verify the build stages ran correctly
-
-For every version, give:
-
-* complete Jenkins pipeline code
-* agent block
-* parameters block if required
-* environment block if required
-* stages and steps fully written
-
-If the question includes BAT commands, use `bat`.
-If the question includes shell/Linux inside Docker/Kubernetes, explain the difference.
+```bash
+git checkout v3
+git pull origin v3
+git checkout -b v4
+git push -u origin v4
+```
 
 ---
 
-## 6. If build execution is required
+# 8. JENKINS RULES
 
-If the question includes build execution in Jenkins for each version, you must explain the full CI/CD flow version by version.
+For EACH version:
 
-That may include:
+1. Open Jenkins → `http://localhost:8080`
+2. Open Pipeline Job
+3. Click Configure
+4. Replace script
+5. Save
+6. Click **Build Now**
 
-* checkout code from GitHub
-* build application or simulate build
-* build Docker image
-* tag Docker image
-* push Docker image to DockerHub
-* deploy image to Kubernetes
-* verify pods/services
+👉 MUST explicitly say:
 
-For each version, clearly mention:
-
-* what changes in code
-* what changes in Jenkinsfile
-* what Docker image tag should be used
-* what Kubernetes YAML should be used
-* what service port should be used
-* how to verify that this version is deployed correctly
+> “This version runs as a separate build”
 
 ---
 
-## 7. If Docker is involved
+# 9. PIPELINE CODE RULES
 
-Always include:
-
-* Docker Desktop prerequisite
-* Docker login if pushing to DockerHub
-* exact Dockerfile content
-* where to save Dockerfile
-* image naming format
-* tag naming format
-* commands to build image manually if needed
-* commands to test image manually before Jenkins
-* commands to view images
-
-Example things you may need to include:
-
-* `docker build -t username/app:v1 .`
-* `docker run -p 5000:5000 username/app:v1`
-* `docker images`
-* `docker ps`
-
-If Jenkins pipeline is doing the Docker build, also explain what the pipeline is doing.
-
-If a separate Dockerfile is required for each version, provide each one separately.
+* ALWAYS give FULL pipeline code
+* NEVER say “same as previous”
+* NEVER skip code
 
 ---
 
-## 8. If DockerHub push is involved
+## Windows Jenkins
 
-Always include:
+Use:
 
-* how to log in to DockerHub
-* how DockerHub repo name should look
-* exact image names
-* exact push commands if manual
-* Jenkins pipeline code for automated push if required
-
-Example:
-
-* `docker login`
-* `docker push username/app:v1`
-
-If credentials are needed in Jenkins, explain that too in beginner-friendly words.
+```groovy
+bat 'command'
+```
 
 ---
 
-## 9. If Kubernetes is involved
+# 10. FILE HANDLING RULE
 
-Always include:
+Use:
 
-* prerequisite: Docker Desktop Kubernetes enabled, or Minikube if relevant
-* exact YAML files needed
-* what file names to use
-* difference between Deployment and Service
-* exact commands to apply files
-* how to verify pods
-* how to verify services
-* how to access application from browser
+Create:
 
-Include commands like:
+```
+echo text > file.txt
+```
 
-* `kubectl apply -f deployment.yaml`
-* `kubectl apply -f service.yaml`
-* `kubectl get pods`
-* `kubectl get services`
-* `kubectl describe pod <pod-name>`
+Append:
 
-If each version needs separate deployments/services, create separate YAML for each version and explain the port mapping clearly.
+```
+echo text >> file.txt
+```
 
-If NodePort is required, explain which port to open in browser.
+Display:
 
----
+```
+type file.txt
+```
 
-## 10. If the project is multi-version
+Explain:
 
-Handle each version like a real release.
-
-For each version separately, give:
-
-* tasks
-* file changes
-* Git commands
-* Jenkins pipeline code
-* Dockerfile if needed
-* deployment YAML if needed
-* service YAML if needed
-* build execution flow
-* verification
-* common errors
-
-Do not combine all versions into one unless I explicitly ask.
+* `>` overwrites
+* `>>` appends
 
 ---
 
-## 11. Code rules
+# 11. METADATA RULE
 
-* Always give complete code, never partial code.
-* Code must be copy-paste-ready.
-* Use placeholders only where unavoidable.
-* Clearly mark what I need to replace, like:
+Use:
 
-  * GitHub repo URL
-  * DockerHub username
-  * app name
-  * branch name
-  * image name
-  * deployment name
-  * service name
-  * container port
-  * node port
-
-If multiple files are required, provide each file separately with heading:
-
-* `Jenkinsfile`
-* `Dockerfile`
-* `app.py`
-* `requirements.txt`
-* `deployment-v1.yaml`
-* `service-v1.yaml`
-  etc.
+* `${env.BUILD_NUMBER}`
+* `${env.JOB_NAME}`
+* `${env.NODE_NAME}`
+* `${env.WORKSPACE}`
 
 ---
 
-## 12. Explain build execution flow clearly
+# 12. TIMESTAMP RULE
 
-Whenever build execution is asked, include a mini flow like this for each version:
+Use readable format:
 
-1. Modify code locally in VS Code
-2. Save file
-3. Commit and push to GitHub branch
-4. Open Jenkins
-5. Run pipeline job
-6. Jenkins checks out code
-7. Jenkins builds application or simulates build
-8. Jenkins builds Docker image
-9. Jenkins pushes image to DockerHub
-10. Jenkins deploys to Kubernetes
-11. Verify pod and service
-12. Open application in browser
-
-If a stage is only simulated and not actually building code, say that clearly.
+```bat
+echo Build Timestamp: %DATE% %TIME% >> file.txt
+```
 
 ---
 
-## 13. Include verification after every version
+# 13. CONDITIONAL DEVOPS RULE
 
-For each version, include:
-
-* what should appear in Jenkins Console Output
-* what should appear in Docker images
-* what should appear in DockerHub
-* what should appear in `kubectl get pods`
-* what should appear in `kubectl get services`
-* what URL to open in browser if applicable
-* what file/artifact/output should be visible
+ONLY include Docker/Kubernetes if explicitly asked.
 
 ---
 
-## 14. Include common errors and fixes
+# 14. REQUIRED OUTPUT FORMAT
 
-After every version, add a section:
+For EACH version:
 
-* Common mistakes
-* Why they happen
-* How to fix them
+## Version X – Feature Name
 
-Examples:
+### 1. Tasks
 
-* Git remote origin already exists
-* push rejected
-* branch not found
-* Jenkins workspace issue
-* docker not recognized
-* Docker Desktop not running
-* image not built
-* Docker push denied
-* Kubernetes cluster not starting
-* `kubectl apply` error
-* pod crash
-* wrong port mapping
-* NodePort not accessible
-* private repo checkout failure
-* Jenkins credentials issue
+### 2. Git Commands
+
+### 3. Jenkins Steps
+
+### 4. Jenkins Pipeline Code (FULL)
+
+### 5. Explanation
+
+### 6. Workspace Handling Note
+
+### 7. Verification
+
+### 8. Common Errors + Fix
 
 ---
 
-## 15. Keep language simple
+# 15. FINAL SUMMARY
 
-* Use very simple English.
-* Be practical.
-* Be detailed.
-* Explain like a lab tutor.
-* Avoid too much theory unless needed for viva.
-* Focus mainly on “what to do next”.
+Include:
 
----
-
-## 16. Add viva/helpful explanation if useful
-
-At the end of each experiment or version, also include:
-
-* short explanation of what this version does
-* expected result
-* possible viva questions with simple answers if relevant
+* what each version achieved
+* parameter usage explanation
+* workspace handling explanation
+* key learning points
 
 ---
 
-## 17. Mandatory output format
+# 16. STRICT RULES
 
-Always structure the answer like this:
-
-* Experiment Name
-* Objective
-* Prerequisites
-* Project setup files needed
-* Version 1
-
-  * Tasks
-  * Local code changes
-  * Git commands
-  * Jenkins steps
-  * Jenkins pipeline code
-  * Docker steps/code
-  * Kubernetes YAML/steps
-  * Verification
-  * Common errors
-* Version 2
-
-  * same structure
-* Version 3
-
-  * same structure
-* Version 4
-
-  * same structure
-* Final result
-* Viva points
+* ALWAYS match parameter names exactly from question
+* ALWAYS explain numeric parameter handling
+* ALWAYS clarify “all parameters” meaning
+* ALWAYS use `>` vs `>>` correctly
+* ALWAYS run versions separately
+* ALWAYS include full code
+* NEVER assume previous build output exists
+* NEVER modify question logic
 
 ---
 
-## 18. Very important execution rules
-
-* Never only summarize.
-* Never only explain theory.
-* Never skip commands.
-* Never assume I know where to click or what to do.
-* If Jenkins Pipeline is required, give full pipeline code.
-* If Docker build is required, give full Docker steps/code.
-* If Kubernetes deployment is required, give full YAML and commands.
-* If Git push is required, give commands for each version too.
-* If updated code is mentioned, explain the edit → save → commit → push → rebuild cycle clearly.
-
-Now wait for the experiment question below and answer according to all the above rules.
+Now wait for the question and generate the full execution guide.
 
 [PASTE QUESTION HERE]
