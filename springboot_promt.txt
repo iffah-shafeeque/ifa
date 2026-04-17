@@ -1,0 +1,412 @@
+I will paste a Spring Boot / Maven / Jenkins / Docker / Kubernetes question at the end.
+
+Your job is to convert it into a **complete, beginner-friendly, step-by-step lab guide** with **all code, commands, files, and configuration included**, in the same style as a manual procedure.
+
+I want the answer to look like a practical tutorial like this style:
+
+* Step 1: Install Tools
+* Step 2: Create Spring Boot Project
+* Step 3: Add `pom.xml`
+* Step 4: Add Java files
+* Step 5: Run locally
+* Step 6: Add Dockerfile
+* Step 7: Build Docker image
+* Step 8: Add Kubernetes YAML
+* Step 9: Push to GitHub
+* Step 10: Configure Jenkins
+* Step 11: Add Jenkins Pipeline
+* Step 12: Add Webhook if needed
+* Step 13: Run pipeline
+* Step 14: Verify output
+
+Follow all rules below strictly.
+
+---
+
+# 1. Main output style
+
+Your answer must be written as a **numbered step-by-step execution guide**.
+
+Do NOT give only summary.
+Do NOT skip setup steps.
+Do NOT assume prior knowledge.
+Do NOT give partial code.
+
+---
+
+# 2. Assume beginner level
+
+Explain everything clearly:
+
+* what tool to install
+* what folder to create
+* what files to create
+* what exact code to paste
+* what commands to run
+* what buttons to click in Jenkins/GitHub
+* what output should appear
+* how to verify each step
+
+---
+
+# 3. If Spring Boot project is asked
+
+Always include these tools unless the question changes them:
+
+* Java 17
+* Maven
+* Jenkins
+* Git
+* Docker Desktop
+* Kubernetes (only if explicitly required)
+* GitHub
+
+Also include verification commands:
+
+```bash
+java -version
+mvn -version
+git --version
+docker --version
+kubectl version --client
+```
+
+Only include `kubectl` verification if Kubernetes is part of the question.
+
+---
+
+# 4. Project structure requirement
+
+Always show the exact project structure clearly.
+
+Example:
+
+```text
+project-name
+├── pom.xml
+├── Dockerfile
+├── deployment.yaml
+├── service.yaml
+└── src
+    └── main
+        └── java
+            └── com
+                └── example
+                    ├── App.java
+                    └── HelloController.java
+```
+
+If package name is different, adjust accordingly.
+
+---
+
+# 5. Code requirement
+
+Always provide full code for:
+
+* `pom.xml`
+* main Spring Boot application class
+* controller class
+* `Dockerfile`
+* `deployment.yaml`
+* `service.yaml`
+* `Jenkinsfile` or Jenkins Pipeline script
+* any other required file
+
+All code must be complete and copy-paste ready.
+
+Do NOT give partial snippets like:
+
+* “same as above”
+* “update previous code”
+* “important parts only”
+
+Always expand the full code.
+
+---
+
+# 6. Spring Boot setup requirement
+
+If it is a basic Spring Boot app, include:
+
+* `spring-boot-starter-parent`
+* `spring-boot-starter-web`
+* `@SpringBootApplication`
+* `@RestController`
+* `@GetMapping("/")`
+
+If the question asks for a more advanced app, adjust accordingly.
+
+---
+
+# 7. Local run requirement
+
+Always include local run command:
+
+```bash
+mvn spring-boot:run
+```
+
+Also explain:
+
+* expected URL, usually `http://localhost:8080`
+* expected browser output
+
+If build JAR step is needed, include:
+
+```bash
+mvn clean package
+```
+
+And explain expected JAR path, for example:
+
+```text
+target/app.jar
+```
+
+or the actual generated jar name.
+
+---
+
+# 8. Docker requirement
+
+If Docker is asked, always include:
+
+## Dockerfile
+
+Give full file.
+
+## Build command
+
+```bash
+docker build -t <image-name> .
+```
+
+## Run command
+
+```bash
+docker run -p 8080:8080 <image-name>
+```
+
+Explain:
+
+* what the Dockerfile does
+* what image name to use
+* what output to expect
+
+If the Dockerfile copies a JAR, explain that `mvn clean package` must run first.
+
+---
+
+# 9. Kubernetes requirement
+
+ONLY include Kubernetes if the question explicitly asks for it.
+
+If Kubernetes is required, always include:
+
+* full `deployment.yaml`
+* full `service.yaml`
+* `kubectl apply -f deployment.yaml`
+* `kubectl apply -f service.yaml`
+* `kubectl get pods`
+* `kubectl get services`
+
+Explain:
+
+* difference between Deployment and Service
+* what NodePort or container port means
+* what browser URL to open
+
+If local Docker Desktop Kubernetes is used and the image is local, explain `imagePullPolicy: Never` if relevant.
+
+---
+
+# 10. GitHub requirement
+
+Always include full Git commands when pushing project:
+
+```bash
+git init
+git add .
+git commit -m "init"
+git branch -M main
+git remote add origin <repo-url>
+git push -u origin main
+```
+
+If versions/branches are part of the question, include version-wise Git commands too.
+
+---
+
+# 11. Jenkins requirement
+
+If Jenkins is involved, always include:
+
+## Open Jenkins
+
+```text
+http://localhost:8080
+```
+
+## Tool configuration
+
+Explain exactly:
+
+* Go to **Manage Jenkins**
+* Open **Global Tool Configuration**
+* Add Maven installation
+* Add JDK installation if needed
+
+## Create Jenkins Job
+
+Explain exactly:
+
+* Click **New Item**
+* Enter job name
+* Select **Pipeline** or **Maven Project** depending on question
+* Click **OK**
+
+## Source code management / pipeline section
+
+Explain exactly where to paste script or where to enter GitHub repository URL.
+
+---
+
+# 12. Jenkins Pipeline requirement
+
+If the question asks for pipeline, always provide full pipeline code.
+
+If environment is Windows, default to:
+
+* `bat`
+
+If Linux/WSL is explicitly used, then:
+
+* `sh`
+
+If unclear, mention both and say which one matches Windows vs Linux.
+
+Do NOT give partial pipeline snippets. Always give full pipeline code.
+
+Example structure:
+
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker') {
+            steps {
+                sh 'docker build -t app .'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
+```
+
+If Windows is assumed, convert this properly to `bat`.
+
+---
+
+# 13. Webhook requirement
+
+If webhook is part of the question, explain exactly:
+
+* open GitHub repository
+* go to **Settings**
+* open **Webhooks**
+* click **Add webhook**
+* payload URL:
+
+```text
+http://<your-ip-or-host>:8080/github-webhook/
+```
+
+Also explain that Jenkins must be reachable from GitHub for webhook to work.
+
+---
+
+# 14. Verification requirement
+
+At the end, always include:
+
+* how to verify Spring Boot app locally
+* how to verify Docker image
+* how to verify container is running
+* how to verify Kubernetes pod/service
+* how to verify Jenkins build success
+* expected browser URL and output
+
+---
+
+# 15. If the user asks for versions like v1, v2, v3, v4
+
+Then present answer version-wise.
+
+For each version include:
+
+* what changes in code
+* full updated code
+* Git commands
+* Docker changes if any
+* Kubernetes YAML if changed
+* Jenkins pipeline if changed
+* how to verify that version
+
+Do NOT say “same as previous version.” Expand full code every time.
+
+---
+
+# 16. Language style
+
+Use:
+
+* simple English
+* beginner-friendly wording
+* practical instructions
+* exact commands and exact files
+
+Write like a lab manual that can be followed directly.
+
+---
+
+# 17. Mandatory structure
+
+Always structure the answer like this:
+
+* Title
+* Objective
+* Step 1: Install Tools
+* Step 2: Create Project Folder
+* Step 3: Create Project Structure
+* Step 4: Create `pom.xml`
+* Step 5: Create Spring Boot Java files
+* Step 6: Run Locally
+* Step 7: Create Dockerfile
+* Step 8: Build and Run Docker Image
+* Step 9: Create Kubernetes YAML files
+* Step 10: Push Project to GitHub
+* Step 11: Open Jenkins
+* Step 12: Configure Tools in Jenkins
+* Step 13: Create Jenkins Job
+* Step 14: Add Jenkins Pipeline / Configure Maven job
+* Step 15: Add Webhook (if required)
+* Step 16: Run Jenkins Build
+* Step 17: Final Verification / Output
+
+If the pasted question changes the flow, adapt the headings accordingly.
+
+---
+
+Now wait for the Spring Boot question below and generate the full step-by-step answer with all code and commands.
+
+[PASTE QUESTION HERE]
