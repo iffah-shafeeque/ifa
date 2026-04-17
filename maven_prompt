@@ -1,0 +1,280 @@
+I will paste a Maven/Jenkins project question at the end.
+
+Your job is to convert it into a **complete, beginner-friendly, step-by-step execution guide** in the **same style as a manual lab procedure**, with **all code and commands included**.
+
+I want the answer to look like a practical tutorial, similar to this pattern:
+
+* Step 1: Install required software
+* Step 2: Create project folder
+* Step 3: Create folder structure
+* Step 4: Create `pom.xml`
+* Step 5: Create Java file
+* Step 6: Build locally
+* Step 7: Push to GitHub
+* Step 8: Open Jenkins
+* Step 9: Configure Jenkins tools
+* Step 10: Create Jenkins job
+* Step 11: Configure GitHub repo
+* Step 12: Configure Maven build
+* Step 13: Run build
+* Step 14: Verify output
+
+Follow all rules below strictly.
+
+---
+
+# 1. Main output style
+
+Your answer must be written as a **numbered step-by-step tutorial**.
+
+For example:
+
+* Step 1: Install Required Software
+* Step 2: Create Project Folder
+* Step 3: Create Project Structure
+* Step 4: Create `pom.xml`
+* Step 5: Create Java File
+* etc.
+
+Do NOT give only summary.
+Do NOT give short points only.
+Do NOT skip steps.
+Do NOT assume prior knowledge.
+
+---
+
+# 2. Assume beginner level
+
+Explain everything clearly:
+
+* what software to install
+* what commands to run
+* what folder to create
+* what file names to use
+* where to save files
+* what code to paste
+* how to verify each step
+
+---
+
+# 3. If Maven project is asked
+
+Always include these parts unless the question explicitly changes them:
+
+## Software setup
+
+* JDK
+* Maven
+* Jenkins
+* Git
+
+Also include verification commands:
+
+```bash
+java -version
+mvn -version
+git --version
+```
+
+---
+
+# 4. Project structure requirement
+
+If the project is Java Maven based, always show the exact folder structure like this:
+
+```text
+project_name
+├── pom.xml
+└── src
+    └── main
+        └── java
+            └── com
+                └── example
+                    └── App.java
+```
+
+If package name is different, adjust accordingly.
+
+---
+
+# 5. Code requirement
+
+Always provide full code for:
+
+* `pom.xml`
+* Java file(s)
+* any other required file(s)
+
+Code must be complete and copy-paste ready.
+
+Do NOT give partial snippets.
+
+---
+
+# 6. Local build requirement
+
+Always include:
+
+```bash
+mvn clean package
+```
+
+Then explain:
+
+* expected output: `BUILD SUCCESS`
+* expected jar location inside `target/`
+
+---
+
+# 7. GitHub push requirement
+
+Always include full Git commands:
+
+```bash
+git init
+git add .
+git commit -m "Maven Project"
+git branch -M main
+git remote add origin <repo-url>
+git push -u origin main
+```
+
+If branches/versions are required, include those too.
+
+---
+
+# 8. Jenkins setup requirement
+
+If the question involves Jenkins Maven project, always include:
+
+## Open Jenkins
+
+```text
+http://localhost:8080
+```
+
+## Configure Maven in Jenkins
+
+Explain:
+
+* Go to **Manage Jenkins**
+* Open **Global Tool Configuration**
+* Add Maven
+* Name example: `Maven3`
+* Install automatically if applicable
+
+## Create Jenkins Job
+
+Explain exactly:
+
+* Click **New Item**
+* Enter job name
+* Select **Maven Project**
+* Click **OK**
+
+---
+
+# 9. Jenkins job configuration requirement
+
+Always explain:
+
+* Source Code Management → Git
+* Repository URL
+* Branch: `*/main`
+* Build section:
+
+  * Root POM: `pom.xml`
+  * Goals and options: `clean package`
+
+If the question is about Pipeline instead of Maven Project job, then give Pipeline script instead.
+
+---
+
+# 10. Verification requirement
+
+At the end, always include:
+
+* expected console output: `BUILD SUCCESS`
+* expected JAR file path in Jenkins workspace
+* how to confirm the build worked
+
+Example:
+
+```text
+workspace/JOB_NAME/target/project_name-1.0-SNAPSHOT.jar
+```
+
+---
+
+# 11. If the user asks for versions (v1, v2, v3, v4)
+
+Then convert the answer into version-wise steps:
+
+* Version 1
+* Version 2
+* Version 3
+* Version 4
+
+For each version include:
+
+* what files change
+* full updated code
+* Git commands
+* Jenkins build steps
+* expected output
+
+---
+
+# 12. If the question is only simple Maven build (not Docker/K8s)
+
+Do NOT include:
+
+* Docker
+* DockerHub
+* Kubernetes
+
+Only include them if the question explicitly asks.
+
+---
+
+# 13. Language style
+
+Use:
+
+* simple English
+* practical instructions
+* beginner-friendly wording
+* exact commands and code
+
+Write like a lab manual that a student can follow directly.
+
+---
+
+# 14. Mandatory structure
+
+Always format the answer like this:
+
+* Title
+* Objective
+* Step 1: Install Required Software
+* Step 2: Create Project Folder
+* Step 3: Create Project Structure
+* Step 4: Create `pom.xml`
+* Step 5: Create Java File
+* Step 6: Build Project Locally
+* Step 7: Push Project to GitHub
+* Step 8: Open Jenkins
+* Step 9: Configure Maven in Jenkins
+* Step 10: Create Maven Project Job
+* Step 11: Configure GitHub Repository
+* Step 12: Configure Maven Build
+* Step 13: Run Jenkins Build
+* Step 14: Final Output / Verification
+
+If the pasted question needs modifications, adapt the step names accordingly.
+
+---
+
+Now wait for the Maven/Jenkins project question below and generate the full step-by-step answer with all code and commands.
+
+[PASTE QUESTION HERE]
