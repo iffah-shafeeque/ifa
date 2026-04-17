@@ -5,69 +5,72 @@ v1 (Feature + Description)
 v2 (Feature + Description)
 v3 (Feature + Description)
 
-Your job is to convert it into a **complete step-by-step implementation + DevOps execution guide** following this EXACT flow:
+Your job is to convert it into a **complete, extremely detailed, real execution guide** following this EXACT flow for **each version separately**:
 
-👉 **VS Code (code) → GitHub (push) → Jenkins Pipeline (checkout & build) → Docker (build image) → DockerHub (push image with credentials) → Kubernetes (deploy app)**
+👉 **VS Code → Local Run → GitHub → Jenkins Pipeline → Docker build → DockerHub push → Kubernetes deploy → Verification**
 
-Follow all instructions strictly.
+Very important:
 
----
+* Each version must be **built, pushed, deployed, and verified separately** in incremental order
+* First complete **v1 fully**
+* Then complete **v2 fully**, based on **v1**
+* Then complete **v3 fully**, based on **v2**
+* Do **NOT** combine all versions into one final build
+* Do **NOT** skip deploying any version
+* Do **NOT** assume building v3 automatically covers v1 and v2
+* For each version, explicitly show that **Jenkins is run separately** and **Kubernetes is updated separately**
+* Focus on **real execution**, not theory only
 
-# 1. Understand the question
-
-* Identify project name and each version (v1, v2, v3, v4 if present)
-* Each version must be treated as a **progressive build**
-* v2 builds on v1, v3 builds on v2 (do NOT restart from scratch)
-
----
-
-# 2. For EACH version, follow this EXACT structure
-
----
-
-## Version X – Feature Name
-
-### 1. Feature Explanation
-
-* Simple explanation
-* What is new compared to previous version
+Follow all rules below STRICTLY.
 
 ---
 
-### 2. VS Code Implementation (MANDATORY)
+# 1. Understanding Rules
 
-Step-by-step:
-
-1. Open VS Code
-2. Create/update files (mention exact names)
-3. Paste FULL code (copy-paste ready)
-4. Save files
-
-Include:
-
-* Full project structure (if needed)
-* Complete code (no partial code)
+* Treat each version as **incremental development**
+* v2 builds on v1
+* v3 builds on v2
+* NEVER rewrite from scratch unless the question explicitly says so
+* ALWAYS explain what changed from the previous version
 
 ---
 
-### 3. Local Testing (MANDATORY)
+# 2. CRITICAL EXECUTION RULES (MUST FOLLOW)
 
-Give exact run command:
+## A. Environment Rule
+
+Assume the setup is **Windows-based** unless the question explicitly says Linux.
+
+Therefore:
+
+* In Jenkins Pipeline on Windows, use **`bat`**
+* Do **NOT** use `sh` unless the environment is explicitly Linux/WSL
+
+If the environment could vary, clearly mention:
+
+* `bat` for Windows Jenkins
+* `sh` for Linux Jenkins
+
+But default to **Windows + bat**
+
+---
+
+## B. Git Rules
+
+Use this exact branching logic:
+
+### Initial setup
 
 ```bash
-python app.py
+git init
+git branch -M main
+git remote add origin <repo-url>
+git add .
+git commit -m "Initial commit"
+git push -u origin main
 ```
 
-Explain:
-
-* URL to open
-* Expected output
-
----
-
-### 4. GitHub Push (MANDATORY)
-
-Include FULL commands:
+### v1
 
 ```bash
 git checkout main
@@ -78,268 +81,358 @@ git commit -m "Added v1 feature"
 git push -u origin v1
 ```
 
-Also include initial setup if needed:
+### v2
 
 ```bash
-git init
-git remote add origin <repo-url>
-git branch -M main
+git checkout v1
+git pull origin v1
+git checkout -b v2
+git add .
+git commit -m "Added v2 feature"
+git push -u origin v2
 ```
 
----
+### v3
 
-### 5. Jenkins Setup (MANDATORY)
+```bash
+git checkout v2
+git pull origin v2
+git checkout -b v3
+git add .
+git commit -m "Added v3 feature"
+git push -u origin v3
+```
 
-Explain step-by-step:
+Never:
 
-1. Open Jenkins → `http://localhost:8080`
-2. Click **New Item**
-3. Select **Pipeline**
-4. Go to **Pipeline script**
-5. Paste code
-6. Click Save
-7. Click Build Now
-
----
-
-### 6. DockerHub Credentials Setup in Jenkins (MANDATORY)
-
-Explain clearly:
-
-1. Go to **Manage Jenkins → Credentials**
-2. Select **(global)**
-3. Click **Add Credentials**
-4. Choose:
-
-   * Kind: Username & Password
-   * Username: your DockerHub username
-   * Password: your DockerHub password
-   * ID: `docker-creds`
-5. Click Save
-
-Explain:
-
-* This ID will be used in pipeline
+* skip pushing `main`
+* skip `git pull`
+* create v2 directly from main unless explicitly required
+* create v3 directly from main unless explicitly required
 
 ---
 
-### 7. Jenkins Pipeline Code (MANDATORY)
+## C. File Creation Rule
 
-Provide FULL pipeline code for EACH version.
+Before pushing any version, make sure **all required files for that version already exist** in the project folder, such as:
 
-Must include:
+* app.py or main program file
+* requirements.txt
+* Dockerfile
+* deployment.yaml
+* service.yaml
 
-* Git checkout (branch v1/v2/v3)
-* Docker build
-* Docker login using credentials
-* Docker push to DockerHub
-* Kubernetes deployment
+If files are missing before Git push, Jenkins checkout/build/deploy may fail.
+
+Very important:
+
+* **Show the actual file contents first**
+* Then do the **Required Files Check**
+* Then do the **Git push**
+* Do **NOT** mention deployment.yaml and service.yaml in the file check before actually showing them
+
+---
+
+## D. Separate Build and Deployment Rule
+
+For **every version**, explicitly show this full cycle separately:
+
+### v1 cycle
+
+1. Write/update code in VS Code
+2. Test locally
+3. Confirm all files exist
+4. Push v1 branch to GitHub
+5. Run Jenkins pipeline for v1
+6. Build Docker image `:v1`
+7. Push Docker image `:v1` to DockerHub
+8. Deploy `:v1` to Kubernetes
+9. Verify v1 is working
+
+### v2 cycle
+
+1. Start from v1 code
+2. Add v2 feature
+3. Test locally
+4. Confirm all files exist
+5. Push v2 branch to GitHub
+6. Run Jenkins pipeline for v2
+7. Build Docker image `:v2`
+8. Push Docker image `:v2` to DockerHub
+9. Deploy `:v2` to Kubernetes
+10. Verify v2 is working
+
+### v3 cycle
+
+1. Start from v2 code
+2. Add v3 feature
+3. Test locally
+4. Confirm all files exist
+5. Push v3 branch to GitHub
+6. Run Jenkins pipeline for v3
+7. Build Docker image `:v3`
+8. Push Docker image `:v3` to DockerHub
+9. Deploy `:v3` to Kubernetes
+10. Verify v3 is working
+
+You MUST make this separation very explicit.
+
+---
+
+## E. DockerHub Consistency Rule
+
+The Docker image name must match everywhere:
+
+* Jenkins pipeline
+* Docker build command
+* Docker push command
+* deployment.yaml
 
 Example:
 
-```groovy
-pipeline {
-    agent any
-
-    environment {
-        DOCKER_IMAGE = "yourdockerhubusername/app:v1"
-    }
-
-    stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'v1', url: 'https://github.com/yourusername/your-repo.git'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                bat 'docker build -t %DOCKER_IMAGE% .'
-            }
-        }
-
-        stage('Docker Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    bat 'echo %PASSWORD% | docker login -u %USERNAME% --password-stdin'
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                bat 'docker push %DOCKER_IMAGE%'
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                bat 'kubectl apply -f deployment.yaml'
-                bat 'kubectl apply -f service.yaml'
-            }
-        }
-    }
-}
-```
-
----
-
-### 8. Docker Setup (MANDATORY)
-
-Provide FULL Dockerfile:
-
-```dockerfile
-FROM python:3.9
-WORKDIR /app
-COPY . .
-RUN pip install flask
-CMD ["python", "app.py"]
-```
-
-Explain:
-
-* where to create Dockerfile
-* how Jenkins uses it
-
----
-
-### 9. DockerHub (MANDATORY)
-
-Explain:
-
-* image format:
-
 ```text
-yourusername/app:v1
+yourdockerhubusername/app:v1
 ```
 
-* Jenkins will push automatically using credentials
+You MUST clearly say:
+**Replace all occurrences of `yourdockerhubusername` and `<repo-url>` everywhere in every version.**
 
 ---
 
-### 10. Kubernetes Deployment (MANDATORY)
+## F. Jenkins Rule
 
-Provide:
+For each version, the Jenkins pipeline must:
 
-#### deployment.yaml
+1. Checkout the correct branch
+2. Build the correct Docker image tag
+3. Login to DockerHub using Jenkins credentials
+4. Push the image
+5. Deploy to Kubernetes
+6. Restart rollout if needed
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: app-v1
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: app-v1
-  template:
-    metadata:
-      labels:
-        app: app-v1
-    spec:
-      containers:
-      - name: app
-        image: yourusername/app:v1
-        ports:
-        - containerPort: 5000
-```
+Very important:
 
-#### service.yaml
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service-v1
-spec:
-  type: NodePort
-  selector:
-    app: app-v1
-  ports:
-    - port: 5000
-      targetPort: 5000
-      nodePort: 30001
-```
+* Give the **full Jenkins Pipeline code for each version**
+* Do **NOT** just say “update the old pipeline”
+* Show the complete code block for v1, v2, and v3 separately
 
 ---
 
-### 11. Kubernetes Commands
+## G. Tool Verification Rule
+
+Before starting, include these checks:
 
 ```bash
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-kubectl get pods
-kubectl get services
+docker --version
+docker ps
+kubectl version --client
+kubectl get nodes
 ```
+
+Explain what each one verifies.
 
 ---
 
-### 12. Verification (MANDATORY)
+## H. Kubernetes Update Rule
+
+For every deployment update, include:
+
+```bash
+kubectl rollout restart deployment <deployment-name>
+```
+
+Explain why:
+
+* ensures the new image version is pulled and deployed
+
+---
+
+## I. Multi-Version Deployment Rule
+
+Because each version is deployed separately, explain one of these clearly:
+
+### Option 1: Separate services and ports
+
+* app-service-v1 → NodePort 30001
+* app-service-v2 → NodePort 30002
+* app-service-v3 → NodePort 30003
+
+### Option 2: Same service overwritten version by version
+
+If using this, explain it clearly and consistently.
+
+Prefer **Option 1** for clarity in labs and demos.
+
+Also clarify whether deployment names are:
+
+* different for each version
+  or
+* reused and restarted
+
+Be fully consistent.
+
+---
+
+## J. Docker Images Verification Rule
+
+Explain clearly:
+
+* `docker images` will show all versions only if Jenkins build is run separately for v1, v2, and v3
+* building only v3 does **NOT** automatically create v1 and v2 locally
+
+---
+
+# 3. REQUIRED OUTPUT FORMAT (STRICT)
+
+For **EACH version**, use EXACTLY this structure:
+
+---
+
+## Version X – Feature Name
+
+### 1. Feature Explanation
+
+* What the version does
+* What changed from previous version
+
+### 2. VS Code Implementation
+
+* Exact step-by-step file creation or update
+* Mention exact file names
+* Give full code, copy-paste ready
+* Show full project structure if needed
+
+### 3. Local Testing
+
+* Exact run command
+* URL to open
+* Expected output
+
+### 4. Kubernetes YAML for This Version
+
+Give full:
+
+* `deployment.yaml`
+* `service.yaml`
+
+Make sure:
+
+* image tag is correct for this version
+* deployment name logic is clear
+* service name is clear
+* NodePort is correct for this version
+
+### 5. Required Files Check
+
+After showing **all files**, explicitly confirm:
+
+* app.py
+* requirements.txt
+* Dockerfile
+* deployment.yaml
+* service.yaml
+
+### 6. GitHub Push
+
+* Exact Git commands for that version only
+
+### 7. Jenkins Setup / Run for This Version
 
 Explain:
 
-* Jenkins → Console Output shows all stages success
-* Docker:
+* how to open Jenkins
+* whether to create a new pipeline job or update existing one
+* that this version must be built separately
+* exactly when to click Save and Build Now
 
-```bash
-docker images
-```
+### 8. DockerHub Credentials Setup
 
-* Kubernetes:
+Explain:
 
-```bash
-kubectl get pods
-kubectl get services
-```
+* Manage Jenkins → Credentials
+* Add Username with password
+* ID: `docker-creds`
 
-* Browser:
+### 9. Jenkins Pipeline Code for This Version
 
-```text
-http://localhost:30001
-```
+Give **full pipeline code for this specific version only**
 
----
+It must include:
 
-### 13. Common Errors + Fix
+* correct branch
+* correct image tag
+* Docker login
+* Docker push
+* Kubernetes deploy
+
+Important:
+
+* Use **`bat`** commands for Windows Jenkins
+* Do not use `sh` unless explicitly told Linux
+
+### 10. Verification for This Version
 
 Include:
 
-* docker not recognized → fix PATH
-* login failed → check credentials
-* push denied → docker login issue
-* pod crash → check logs
-* wrong port → fix YAML
-* Jenkins stuck → disk space issue
+* Jenkins success check
+* `docker images`
+* `kubectl get pods`
+* `kubectl get services`
+* browser URL for this version
+* what output should appear
 
----
-
-# 3. Final Summary (MANDATORY)
+### 11. Common Errors + Fix
 
 Include:
 
-* What each version achieved
-* Full pipeline flow:
-  👉 VS Code → GitHub → Jenkins → Docker → DockerHub → Kubernetes
-* Key learning points
-* Viva questions
+* wrong branch
+* missing files
+* Docker push denied
+* wrong image tag
+* Kubernetes old version still showing
+* port conflicts
+* Jenkins credentials mismatch
+* using `sh` on Windows Jenkins
 
 ---
 
-# 4. STRICT RULES
+# 4. FINAL SUMMARY
 
-* Always give FULL code (no partial code)
-* Always include DockerHub push with credentials
-* Always include Jenkins credential setup
-* Always include Git commands per version
-* Always include Jenkins pipeline code
-* Always include Docker + Kubernetes steps
-* Do NOT skip steps
-* Use simple English
-* Focus on real execution, not theory
+At the end, include:
+
+* how v1, v2, and v3 were built separately
+* how each version was deployed separately
+* full flow:
+  **VS Code → GitHub → Jenkins → Docker → DockerHub → Kubernetes**
+* key learning points
+* short viva questions
 
 ---
 
-Now wait for the question and generate the complete step-by-step guide.
+# 5. STRICT RULES (DO NOT BREAK)
 
-[PASTE QUESTION HERE]
+* ALWAYS push main first
+* ALWAYS use incremental branches
+* ALWAYS create all files before Git push
+* ALWAYS show YAML before the required-files check
+* ALWAYS build each version separately in Jenkins
+* ALWAYS push each version image separately to DockerHub
+* ALWAYS deploy each version separately to Kubernetes
+* ALWAYS verify each version separately
+* ALWAYS provide full Jenkins Pipeline code for every version
+* ALWAYS provide full Kubernetes YAML for every version
+* NEVER replace full code with “just update previous code” only
+* NEVER use `sh` for Windows Jenkins
+* NEVER merge all versions into one build unless the question explicitly asks
+* NEVER skip the local testing step
+* NEVER skip the verification step
+* Use simple beginner-friendly language
+* Focus on real execution, not theory only
+* NEVER write ‘update previous pipeline’ — ALWAYS give full pipeline code per version
+* NEVER write ‘update YAML’ — ALWAYS give full deployment.yaml and service.yaml per version
+* ALWAYS include git pull origin <branch> before creating next version branch
+
+---
+
+Now wait for the question and generate the full step-by-step execution guide.
+
